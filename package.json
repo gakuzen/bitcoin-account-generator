@@ -10,6 +10,8 @@
     "@types/node": "^12.12.47",
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
+    "bip39": "^3.0.2",
+    "bitcoinjs-lib": "^5.1.10",
     "bootstrap": "^4.5.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
