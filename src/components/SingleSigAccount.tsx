@@ -21,7 +21,6 @@ const SingleSigAccount = (): JSX.Element => {
               <Form.Label>Seed Phrase</Form.Label>
               <InputGroup>
                 <Form.Control
-                  type="text"
                   as="textarea"
                   rows={2}
                   placeholder="Enter a seed phrase"
