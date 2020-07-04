@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import * as BitcoinjsLib from "bitcoinjs-lib";
 
 import "./MultiSigAccount.css";
 import { generateMultiSigAccount } from "../utils/bitcoin";
@@ -106,7 +107,7 @@ const MultiSigAccount = (): JSX.Element => {
                 variant="outline-primary"
                 type="button"
                 onClick={(): void => {
-                  const account = generateMultiSigAccount(
+                  const account: BitcoinjsLib.payments.Payment | null = generateMultiSigAccount(
                     publicKeys,
                     numberOfRequiredKeys
                   );
