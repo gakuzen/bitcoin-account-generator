@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import * as Bip39 from "bip39";
-import * as BitcoinjsLib from "bitcoinjs-lib";
 
 import {
   generateMnemonic,
@@ -13,7 +12,6 @@ import {
   defaultPathBIP84,
   generateAccount,
 } from "../utils/bitcoin";
-import { BIP32Interface } from "bitcoinjs-lib";
 
 const SingleSigAccount = (): JSX.Element => {
   const [addressType, setAddressType] = useState<AddressType>(
