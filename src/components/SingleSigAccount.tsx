@@ -217,7 +217,7 @@ const SingleSigAccount = (): JSX.Element => {
                   </InputGroup>
                 </Form.Group>
                 <Form.Group controlId="formPublicKey">
-                  <Form.Label>Public Key</Form.Label>
+                  <Form.Label>Public Key (Hex)</Form.Label>
                   <InputGroup>
                     <Form.Control type="text" value={publicKey} readOnly />
                   </InputGroup>
