@@ -5,7 +5,7 @@ const MultiSigAccount = (): JSX.Element => {
   return (
     <Card className="accountCard">
       <Card.Header>
-        n-out-of-m Multisignature (multi-sig) Pay-To-Script-Hash (P2SH) account
+        n-of-m Multisignature (multi-sig) Pay-To-Script-Hash (P2SH) account
       </Card.Header>
       <Card.Body></Card.Body>
     </Card>

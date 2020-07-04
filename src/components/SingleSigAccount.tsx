@@ -101,7 +101,8 @@ const SingleSigAccount = (): JSX.Element => {
                 </InputGroup.Append>
               </InputGroup>
               <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
+                Please write down the seed phrase on a paper and store it
+                securely.
               </Form.Text>
             </Form.Group>
 
@@ -127,6 +128,9 @@ const SingleSigAccount = (): JSX.Element => {
                   </Button>
                 </InputGroup.Append>
               </InputGroup>
+              <Form.Text className="text-muted">
+                Ref: m / k' / coin_type' / account' / change / address
+              </Form.Text>
             </Form.Group>
 
             <Form.Group>
