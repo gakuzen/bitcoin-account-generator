@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -18,14 +18,12 @@ const SingleSigAccount = (): JSX.Element => {
   );
   const [mnemonic, setMnemonic] = useState<string>("");
   const [path, setPath] = useState<string>("");
-  const [pathPlaceholder, setPathPlaceholder] = useState<string>(
-    defaultPathBIP49
-  );
+  const [pathPlaceholder, setPathPlaceholder] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [publicKey, setPublicKey] = useState<string>("");
   const [privateKey, setPrivateKey] = useState<string>("");
 
-  const changeAddressType = (addressType: AddressType) => {
+  const changeAddressType = (addressType: AddressType): void => {
     switch (addressType) {
       case AddressType.SegWit: {
         setAddressType(AddressType.SegWit);
@@ -44,6 +42,10 @@ const SingleSigAccount = (): JSX.Element => {
     }
   };
 
+  useEffect((): void => {
+    changeAddressType(AddressType.SegWit);
+  }, []);
+
   return (
     <Card className="accountCard">
       <Card.Header>
@@ -60,7 +62,7 @@ const SingleSigAccount = (): JSX.Element => {
                 name="formSegWitTypes"
                 id="formSegWitTypes1"
                 checked={addressType === AddressType.SegWit}
-                onChange={() => {
+                onChange={(): void => {
                   changeAddressType(AddressType.SegWit);
                 }}
               />
@@ -71,7 +73,7 @@ const SingleSigAccount = (): JSX.Element => {
                 name="formSegWitTypes"
                 id="formSegWitTypes2"
                 checked={addressType === AddressType.NativeSegWit}
-                onChange={() => {
+                onChange={(): void => {
                   changeAddressType(AddressType.NativeSegWit);
                 }}
               />
@@ -85,13 +87,15 @@ const SingleSigAccount = (): JSX.Element => {
                   rows={3}
                   placeholder="Enter a seed phrase"
                   value={mnemonic}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange={(
+                    event: React.ChangeEvent<HTMLInputElement>
+                  ): void => {
                     setMnemonic(event.target.value);
                   }}
                 />
                 <InputGroup.Append>
                   <Button
-                    variant="primary"
+                    variant="outline-primary"
                     onClick={(): void => {
                       setMnemonic(generateMnemonic());
                     }}
@@ -113,13 +117,15 @@ const SingleSigAccount = (): JSX.Element => {
                   type="text"
                   placeholder={`Enter path, eg. ${pathPlaceholder}`}
                   value={path}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange={(
+                    event: React.ChangeEvent<HTMLInputElement>
+                  ): void => {
                     setPath(event.target.value);
                   }}
                 />
                 <InputGroup.Append>
                   <Button
-                    variant="primary"
+                    variant="outline-primary"
                     onClick={(): void => {
                       setPath(pathPlaceholder);
                     }}
@@ -135,9 +141,9 @@ const SingleSigAccount = (): JSX.Element => {
 
             <Form.Group>
               <Button
-                variant="primary"
+                variant="outline-primary"
                 type="button"
-                onClick={() => {
+                onClick={(): void => {
                   const { account, node } =
                     generateAccount(addressType, mnemonic, path) || {};
                   if (account) {

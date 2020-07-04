@@ -6,9 +6,13 @@ export enum AddressType {
   NativeSegWit = "NativeSegWit",
 }
 
-export const defaultPathBIP49 = `m/49'/0'/0'/0/0`;
-export const defaultPathBIP84 = `m/84'/0'/0'/0/0`;
-const defaultMnemonicStrength = 256;
+const defaultMnemonicStrength: number = 256;
+export const defaultPathBIP49: string = `m/49'/0'/0'/0/0`;
+export const defaultPathBIP84: string = `m/84'/0'/0'/0/0`;
+
+export const generateMnemonic = (): string => {
+  return Bip39.generateMnemonic(defaultMnemonicStrength);
+};
 
 export const generateAccount = (
   addressType: AddressType,
@@ -56,6 +60,19 @@ export const generateAccount = (
   }
 };
 
-export const generateMnemonic = (): string => {
-  return Bip39.generateMnemonic(defaultMnemonicStrength);
+export const generateMultiSigAccount = (
+  publicKeys: string[],
+  n: number
+): BitcoinjsLib.payments.Payment | null => {
+  try {
+    const pubkeys: Buffer[] = publicKeys.map(
+      (hex): Buffer => Buffer.from(hex, "hex")
+    );
+
+    return BitcoinjsLib.payments.p2sh({
+      redeem: BitcoinjsLib.payments.p2ms({ m: n, pubkeys }),
+    });
+  } catch (err) {
+    return null;
+  }
 };
