@@ -14,6 +14,8 @@ const MultiSigAccount = (): JSX.Element => {
   const [numberOfRequiredKeys, setNumberOfRequiredKeys] = useState<number>(1);
   const [address, setAddress] = useState<string>("");
 
+  const generated: boolean = !!address;
+
   return (
     <Card className="accountCard">
       <Card.Header>
@@ -32,6 +34,7 @@ const MultiSigAccount = (): JSX.Element => {
                         <Form.Control
                           type="text"
                           value={publicKey}
+                          readOnly={generated}
                           onChange={(
                             event: React.ChangeEvent<HTMLInputElement>
                           ): void => {
@@ -48,6 +51,7 @@ const MultiSigAccount = (): JSX.Element => {
                           <InputGroup.Append>
                             <Button
                               variant="outline-primary"
+                              disabled={generated}
                               onClick={(): void => {
                                 setNumberOfRequiredKeys(
                                   numberOfRequiredKeys >= publicKeys.length
@@ -73,6 +77,7 @@ const MultiSigAccount = (): JSX.Element => {
                 className="addButton"
                 variant="outline-primary"
                 type="button"
+                disabled={generated}
                 onClick={(): void => {
                   setPublicKeys((keys): string[] => [...keys, ""]);
                 }}
@@ -88,6 +93,7 @@ const MultiSigAccount = (): JSX.Element => {
               <Form.Control
                 as="select"
                 value={numberOfRequiredKeys}
+                disabled={generated}
                 onChange={(
                   event: React.ChangeEvent<HTMLInputElement>
                 ): void => {
@@ -102,31 +108,34 @@ const MultiSigAccount = (): JSX.Element => {
               </Form.Control>
             </Form.Group>
 
-            <Form.Group>
-              <Button
-                variant="outline-primary"
-                type="button"
-                onClick={(): void => {
-                  const account: BitcoinjsLib.payments.Payment | null = generateMultiSigAccount(
-                    publicKeys,
-                    numberOfRequiredKeys
-                  );
-                  if (account) {
-                    setPublicKeysError(false);
+            {!generated && (
+              <Form.Group>
+                <Button
+                  variant="outline-primary"
+                  type="button"
+                  disabled={generated}
+                  onClick={(): void => {
+                    const account: BitcoinjsLib.payments.Payment | null = generateMultiSigAccount(
+                      publicKeys,
+                      numberOfRequiredKeys
+                    );
+                    if (account) {
+                      setPublicKeysError(false);
 
-                    const { address } = account;
-                    setAddress(address || "");
-                  } else {
-                    setPublicKeysError(true);
-                    setAddress("");
-                  }
-                }}
-              >
-                Generate
-              </Button>
-            </Form.Group>
+                      const { address } = account;
+                      setAddress(address || "");
+                    } else {
+                      setPublicKeysError(true);
+                      setAddress("");
+                    }
+                  }}
+                >
+                  Generate
+                </Button>
+              </Form.Group>
+            )}
 
-            {address && (
+            {generated && (
               <div>
                 <Form.Group controlId="formAddress">
                   <Form.Label>Address</Form.Label>
@@ -134,6 +143,15 @@ const MultiSigAccount = (): JSX.Element => {
                     <Form.Control type="text" value={address} readOnly />
                   </InputGroup>
                 </Form.Group>
+                <Button
+                  variant="outline-primary"
+                  type="button"
+                  onClick={() => {
+                    setAddress("");
+                  }}
+                >
+                  Reset
+                </Button>
               </div>
             )}
           </Form>

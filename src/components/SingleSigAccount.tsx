@@ -72,6 +72,8 @@ const SingleSigAccount = (): JSX.Element => {
     changeAddressType(AddressType.SegWit);
   }, []);
 
+  const generated: boolean = !!address;
+
   return (
     <Card className="accountCard">
       <Card.Header>
@@ -88,6 +90,7 @@ const SingleSigAccount = (): JSX.Element => {
                 name="formSegWitTypes"
                 id="formSegWitTypes1"
                 checked={addressType === AddressType.SegWit}
+                disabled={generated}
                 onChange={(): void => {
                   changeAddressType(AddressType.SegWit);
                 }}
@@ -99,6 +102,7 @@ const SingleSigAccount = (): JSX.Element => {
                 name="formSegWitTypes"
                 id="formSegWitTypes2"
                 checked={addressType === AddressType.NativeSegWit}
+                disabled={generated}
                 onChange={(): void => {
                   changeAddressType(AddressType.NativeSegWit);
                 }}
@@ -113,6 +117,7 @@ const SingleSigAccount = (): JSX.Element => {
                   rows={3}
                   placeholder="Enter a seed phrase"
                   value={mnemonic}
+                  readOnly={generated}
                   onChange={(
                     event: React.ChangeEvent<HTMLInputElement>
                   ): void => {
@@ -123,6 +128,7 @@ const SingleSigAccount = (): JSX.Element => {
                 <InputGroup.Append>
                   <Button
                     variant="outline-primary"
+                    disabled={generated}
                     onClick={(): void => {
                       setMnemonic(generateMnemonic());
                     }}
@@ -144,6 +150,7 @@ const SingleSigAccount = (): JSX.Element => {
                   type="text"
                   placeholder={`Enter path, eg. ${pathPlaceholder}`}
                   value={path}
+                  readOnly={generated}
                   onChange={(
                     event: React.ChangeEvent<HTMLInputElement>
                   ): void => {
@@ -154,6 +161,7 @@ const SingleSigAccount = (): JSX.Element => {
                 <InputGroup.Append>
                   <Button
                     variant="outline-primary"
+                    disabled={generated}
                     onClick={(): void => {
                       setPath(pathPlaceholder);
                     }}
@@ -167,37 +175,40 @@ const SingleSigAccount = (): JSX.Element => {
               </Form.Text>
             </Form.Group>
 
-            <Form.Group>
-              <Button
-                variant="outline-primary"
-                type="button"
-                onClick={(): void => {
-                  if (validateInputs()) {
-                    const account = generateAccount(
-                      addressType,
-                      mnemonic,
-                      path
-                    );
-                    if (account) {
-                      const { node, payment } = account;
+            {!generated && (
+              <Form.Group>
+                <Button
+                  variant="outline-primary"
+                  type="button"
+                  disabled={generated}
+                  onClick={(): void => {
+                    if (validateInputs()) {
+                      const account = generateAccount(
+                        addressType,
+                        mnemonic,
+                        path
+                      );
+                      if (account) {
+                        const { node, payment } = account;
 
-                      if (payment) {
-                        const { address } = payment;
-                        setAddress(address || "");
-                      }
+                        if (payment) {
+                          const { address } = payment;
+                          setAddress(address || "");
+                        }
 
-                      if (node) {
-                        setPublicKey(node.publicKey.toString("hex"));
-                        setPrivateKey(node.toWIF());
+                        if (node) {
+                          setPublicKey(node.publicKey.toString("hex"));
+                          setPrivateKey(node.toWIF());
+                        }
                       }
                     }
-                  }
-                }}
-              >
-                Generate
-              </Button>
-            </Form.Group>
-            {address && (
+                  }}
+                >
+                  Generate
+                </Button>
+              </Form.Group>
+            )}
+            {generated && (
               <div>
                 <Form.Group controlId="formAddress">
                   <Form.Label>Address</Form.Label>
@@ -217,6 +228,15 @@ const SingleSigAccount = (): JSX.Element => {
                     <Form.Control type="text" value={privateKey} readOnly />
                   </InputGroup>
                 </Form.Group>
+                <Button
+                  variant="outline-primary"
+                  type="button"
+                  onClick={() => {
+                    setAddress("");
+                  }}
+                >
+                  Reset
+                </Button>
               </div>
             )}
           </Form>
