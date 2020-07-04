@@ -9,6 +9,7 @@ import { generateMultiSigAccount } from "../utils/bitcoin";
 
 const MultiSigAccount = (): JSX.Element => {
   const [publicKeys, setPublicKeys] = useState<string[]>([""]);
+  const [publicKeysError, setPublicKeysError] = useState<boolean>(false);
   const [numberOfRequiredKeys, setNumberOfRequiredKeys] = useState<number>(1);
   const [address, setAddress] = useState<string>("");
 
@@ -40,6 +41,7 @@ const MultiSigAccount = (): JSX.Element => {
                               ...publicKeys.slice(index + 1),
                             ]);
                           }}
+                          isInvalid={publicKeysError}
                         />
                         {index > 0 && (
                           <InputGroup.Append>
@@ -104,10 +106,19 @@ const MultiSigAccount = (): JSX.Element => {
                 variant="outline-primary"
                 type="button"
                 onClick={(): void => {
-                  const { address } =
-                    generateMultiSigAccount(publicKeys, numberOfRequiredKeys) ||
-                    {};
-                  setAddress(address || "");
+                  const account = generateMultiSigAccount(
+                    publicKeys,
+                    numberOfRequiredKeys
+                  );
+                  if (account) {
+                    setPublicKeysError(false);
+
+                    const { address } = account;
+                    setAddress(address || "");
+                  } else {
+                    setPublicKeysError(true);
+                    setAddress("");
+                  }
                 }}
               >
                 Generate

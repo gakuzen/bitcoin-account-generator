@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import * as Bip39 from "bip39";
 
 import {
   generateMnemonic,
@@ -17,11 +18,36 @@ const SingleSigAccount = (): JSX.Element => {
     AddressType.SegWit
   );
   const [mnemonic, setMnemonic] = useState<string>("");
+  const [mnemonicError, setMnemonicError] = useState<boolean>(false);
   const [path, setPath] = useState<string>("");
+  const [pathError, setPathError] = useState<boolean>(false);
   const [pathPlaceholder, setPathPlaceholder] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [publicKey, setPublicKey] = useState<string>("");
   const [privateKey, setPrivateKey] = useState<string>("");
+
+  // TODO: validate by Yup and Formik
+  const validateInputs = () => {
+    let hasError: boolean = false;
+
+    // Validate mnemonic
+    if (!Bip39.validateMnemonic(mnemonic)) {
+      setMnemonicError(true);
+      hasError = true;
+    } else {
+      setMnemonicError(false);
+    }
+
+    // Validate path
+    if (!path) {
+      setPathError(true);
+      hasError = true;
+    } else {
+      setPathError(false);
+    }
+
+    return !hasError;
+  };
 
   const changeAddressType = (addressType: AddressType): void => {
     switch (addressType) {
@@ -92,6 +118,7 @@ const SingleSigAccount = (): JSX.Element => {
                   ): void => {
                     setMnemonic(event.target.value);
                   }}
+                  isInvalid={mnemonicError}
                 />
                 <InputGroup.Append>
                   <Button
@@ -122,6 +149,7 @@ const SingleSigAccount = (): JSX.Element => {
                   ): void => {
                     setPath(event.target.value);
                   }}
+                  isInvalid={pathError}
                 />
                 <InputGroup.Append>
                   <Button
@@ -135,7 +163,7 @@ const SingleSigAccount = (): JSX.Element => {
                 </InputGroup.Append>
               </InputGroup>
               <Form.Text className="text-muted">
-                Ref: m / k' / coin_type' / account' / change / address
+                Ref.: m / k' / coin_type' / account' / change / address
               </Form.Text>
             </Form.Group>
 
@@ -144,16 +172,25 @@ const SingleSigAccount = (): JSX.Element => {
                 variant="outline-primary"
                 type="button"
                 onClick={(): void => {
-                  const { account, node } =
-                    generateAccount(addressType, mnemonic, path) || {};
-                  if (account) {
-                    const { address } = account;
-                    setAddress(address || "");
-                  }
+                  if (validateInputs()) {
+                    const account = generateAccount(
+                      addressType,
+                      mnemonic,
+                      path
+                    );
+                    if (account) {
+                      const { node, payment } = account;
 
-                  if (node) {
-                    setPublicKey(node.publicKey.toString("hex"));
-                    setPrivateKey(node.toWIF());
+                      if (payment) {
+                        const { address } = payment;
+                        setAddress(address || "");
+                      }
+
+                      if (node) {
+                        setPublicKey(node.publicKey.toString("hex"));
+                        setPrivateKey(node.toWIF());
+                      }
+                    }
                   }
                 }}
               >
@@ -175,7 +212,7 @@ const SingleSigAccount = (): JSX.Element => {
                   </InputGroup>
                 </Form.Group>
                 <Form.Group controlId="formPrivateKey">
-                  <Form.Label>Private Key</Form.Label>
+                  <Form.Label>Private Key (WIF)</Form.Label>
                   <InputGroup>
                     <Form.Control type="text" value={privateKey} readOnly />
                   </InputGroup>

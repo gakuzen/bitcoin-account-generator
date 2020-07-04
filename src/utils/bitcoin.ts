@@ -20,9 +20,13 @@ export const generateAccount = (
   path: string
 ): {
   node: BitcoinjsLib.bip32.BIP32Interface;
-  account: BitcoinjsLib.payments.Payment;
+  payment: BitcoinjsLib.payments.Payment;
 } | null => {
   try {
+    if (!Bip39.validateMnemonic(mnemonic)) {
+      return null;
+    }
+
     const seed: Buffer = Bip39.mnemonicToSeedSync(mnemonic);
     const root: BitcoinjsLib.bip32.BIP32Interface = BitcoinjsLib.bip32.fromSeed(
       seed
@@ -30,27 +34,27 @@ export const generateAccount = (
 
     const child: BitcoinjsLib.bip32.BIP32Interface = root.derivePath(path);
 
-    let account: BitcoinjsLib.payments.Payment | null = null;
+    let payment: BitcoinjsLib.payments.Payment | null = null;
 
     switch (addressType) {
       case AddressType.SegWit: {
-        account = BitcoinjsLib.payments.p2sh({
+        payment = BitcoinjsLib.payments.p2sh({
           redeem: BitcoinjsLib.payments.p2wpkh({ pubkey: child.publicKey }),
         });
         break;
       }
       case AddressType.NativeSegWit: {
-        account = BitcoinjsLib.payments.p2wpkh({ pubkey: child.publicKey });
+        payment = BitcoinjsLib.payments.p2wpkh({ pubkey: child.publicKey });
         break;
       }
       default: {
       }
     }
 
-    if (account) {
+    if (payment) {
       return {
         node: child,
-        account,
+        payment: payment,
       };
     }
 
