@@ -5,6 +5,14 @@ import { act } from "react-dom/test-utils";
 import MultiSigAccount from "./MultiSigAccount";
 
 describe("should render MultiSigAccount", (): void => {
+  const publicKeyInputPlaceholder = (number: number): string => `#${number}`;
+  const removePublicKeyButtonLabel: string = "-";
+  const addPublicKeyButtonLabel: string = "+";
+  const numberOfRequiredKeysSelectLabel: RegExp = /Number of required keys/i;
+  const generateButtonLabel: string = "Generate";
+  const addressInputLabel: string = "Address";
+  const resetButtonLabel: string = "Reset";
+
   const publicKeys: string[] = [
     "0241965adac60853110dbca7aa1322d3891b9080f8fcc981b32ff216ebda032f36",
     "03e8879ffc3eaac1f137e9e787f11a62bc63c237633192bac02aedcacffbbe900e",
@@ -19,8 +27,10 @@ describe("should render MultiSigAccount", (): void => {
       queryByPlaceholderText,
     } = render(<MultiSigAccount />);
 
-    const publicKeyInput1: HTMLElement = getByPlaceholderText("#1");
-    const addButton: HTMLElement = getByText("+");
+    const publicKeyInput1: HTMLElement = getByPlaceholderText(
+      publicKeyInputPlaceholder(1)
+    );
+    const addButton: HTMLElement = getByText(addPublicKeyButtonLabel);
 
     expect(publicKeyInput1).toBeInTheDocument();
     expect(addButton).toBeInTheDocument();
@@ -30,8 +40,12 @@ describe("should render MultiSigAccount", (): void => {
       addButton.click();
     });
 
-    const publicKeyInput2: HTMLElement = getByPlaceholderText("#2");
-    const publicKeyInput3: HTMLElement = getByPlaceholderText("#3");
+    const publicKeyInput2: HTMLElement = getByPlaceholderText(
+      publicKeyInputPlaceholder(2)
+    );
+    const publicKeyInput3: HTMLElement = getByPlaceholderText(
+      publicKeyInputPlaceholder(3)
+    );
 
     expect(publicKeyInput2).toBeInTheDocument();
     expect(publicKeyInput3).toBeInTheDocument();
@@ -46,19 +60,23 @@ describe("should render MultiSigAccount", (): void => {
       fireEvent.change(publicKeyInput3, { target: { value: publicKeys[2] } });
     });
 
-    let removePublicKeyButtons: HTMLElement[] = getAllByText("-");
+    let removePublicKeyButtons: HTMLElement[] = getAllByText(
+      removePublicKeyButtonLabel
+    );
     expect(removePublicKeyButtons.length).toBe(2);
 
     act(() => {
       removePublicKeyButtons[0].click();
     });
 
-    removePublicKeyButtons = getAllByText("-");
+    removePublicKeyButtons = getAllByText(removePublicKeyButtonLabel);
 
     expect(removePublicKeyButtons.length).toBe(1);
     expect(publicKeyInput1).toBeInTheDocument();
     expect(publicKeyInput2).toBeInTheDocument();
-    expect(queryByPlaceholderText("#3")).not.toBeInTheDocument();
+    expect(
+      queryByPlaceholderText(publicKeyInputPlaceholder(3))
+    ).not.toBeInTheDocument();
     expect((publicKeyInput1 as HTMLInputElement).value).toBe(publicKeys[0]);
     expect((publicKeyInput2 as HTMLInputElement).value).toBe(publicKeys[2]);
   });
@@ -69,9 +87,9 @@ describe("should render MultiSigAccount", (): void => {
     );
 
     let numberOfRequiredKeysSelect: HTMLElement = getByLabelText(
-      /Number of required keys/i
+      numberOfRequiredKeysSelectLabel
     );
-    const addButton: HTMLElement = getByText("+");
+    const addButton: HTMLElement = getByText(addPublicKeyButtonLabel);
 
     expect(numberOfRequiredKeysSelect).toBeInTheDocument();
     expect((numberOfRequiredKeysSelect as HTMLInputElement).value).toBe("1");
@@ -82,7 +100,9 @@ describe("should render MultiSigAccount", (): void => {
       addButton.click();
     });
 
-    numberOfRequiredKeysSelect = getByLabelText(/Number of required keys/i);
+    numberOfRequiredKeysSelect = getByLabelText(
+      numberOfRequiredKeysSelectLabel
+    );
     expect(
       (numberOfRequiredKeysSelect as HTMLSelectElement).options.length
     ).toBe(4);
@@ -91,10 +111,14 @@ describe("should render MultiSigAccount", (): void => {
       fireEvent.change(numberOfRequiredKeysSelect, { target: { value: 3 } });
     });
 
-    numberOfRequiredKeysSelect = getByLabelText(/Number of required keys/i);
+    numberOfRequiredKeysSelect = getByLabelText(
+      numberOfRequiredKeysSelectLabel
+    );
     expect((numberOfRequiredKeysSelect as HTMLSelectElement).value).toBe("3");
 
-    const removePublicKeyButtons: HTMLElement[] = getAllByText("-");
+    const removePublicKeyButtons: HTMLElement[] = getAllByText(
+      removePublicKeyButtonLabel
+    );
     act(() => {
       removePublicKeyButtons[0].click();
     });
@@ -102,7 +126,9 @@ describe("should render MultiSigAccount", (): void => {
       removePublicKeyButtons[1].click();
     });
 
-    numberOfRequiredKeysSelect = getByLabelText(/Number of required keys/i);
+    numberOfRequiredKeysSelect = getByLabelText(
+      numberOfRequiredKeysSelectLabel
+    );
     expect((numberOfRequiredKeysSelect as HTMLSelectElement).value).toBe("2");
   });
 
@@ -115,16 +141,22 @@ describe("should render MultiSigAccount", (): void => {
       getAllByText,
     } = render(<MultiSigAccount />);
 
-    const addButton: HTMLElement = getByText("+");
+    const addButton: HTMLElement = getByText(addPublicKeyButtonLabel);
     act(() => {
       addButton.click();
       addButton.click();
     });
 
-    const publicKeyInput1: HTMLElement = getByPlaceholderText("#1");
-    const publicKeyInput2: HTMLElement = getByPlaceholderText("#2");
-    const publicKeyInput3: HTMLElement = getByPlaceholderText("#3");
-    const generateButton: HTMLElement = getByText("Generate");
+    const publicKeyInput1: HTMLElement = getByPlaceholderText(
+      publicKeyInputPlaceholder(1)
+    );
+    const publicKeyInput2: HTMLElement = getByPlaceholderText(
+      publicKeyInputPlaceholder(2)
+    );
+    const publicKeyInput3: HTMLElement = getByPlaceholderText(
+      publicKeyInputPlaceholder(3)
+    );
+    const generateButton: HTMLElement = getByText(generateButtonLabel);
     expect(generateButton).toBeInTheDocument();
 
     act(() => {
@@ -140,8 +172,10 @@ describe("should render MultiSigAccount", (): void => {
       generateButton.click();
     });
 
-    const addressInput: HTMLElement = getByLabelText("Address");
-    const removePublicKeyButtons: HTMLElement[] = getAllByText("-");
+    const addressInput: HTMLElement = getByLabelText(addressInputLabel);
+    const removePublicKeyButtons: HTMLElement[] = getAllByText(
+      removePublicKeyButtonLabel
+    );
 
     expect(addressInput).toBeInTheDocument();
     expect((addressInput as HTMLInputElement).readOnly).toBe(true);
@@ -153,8 +187,8 @@ describe("should render MultiSigAccount", (): void => {
       expect((removePublicKeyButton as HTMLInputElement).disabled).toBe(true);
     });
     expect((addButton as HTMLInputElement).disabled).toBe(true);
-    expect(queryByText("Generate")).not.toBeInTheDocument();
-    expect(getByText("Reset")).toBeInTheDocument();
+    expect(queryByText(generateButtonLabel)).not.toBeInTheDocument();
+    expect(getByText(resetButtonLabel)).toBeInTheDocument();
   });
 
   it("test reset button", (): void => {
@@ -166,13 +200,17 @@ describe("should render MultiSigAccount", (): void => {
       queryByLabelText,
     } = render(<MultiSigAccount />);
 
-    const addButton: HTMLElement = getByText("+");
+    const addButton: HTMLElement = getByText(addPublicKeyButtonLabel);
     act(() => {
       addButton.click();
     });
 
-    const publicKeyInput1: HTMLElement = getByPlaceholderText("#1");
-    const publicKeyInput2: HTMLElement = getByPlaceholderText("#2");
+    const publicKeyInput1: HTMLElement = getByPlaceholderText(
+      publicKeyInputPlaceholder(1)
+    );
+    const publicKeyInput2: HTMLElement = getByPlaceholderText(
+      publicKeyInputPlaceholder(2)
+    );
 
     act(() => {
       fireEvent.change(publicKeyInput1, { target: { value: publicKeys[0] } });
@@ -181,26 +219,28 @@ describe("should render MultiSigAccount", (): void => {
       fireEvent.change(publicKeyInput2, { target: { value: publicKeys[1] } });
     });
 
-    const generateButton: HTMLElement = getByText("Generate");
+    const generateButton: HTMLElement = getByText(generateButtonLabel);
     act(() => {
       generateButton.click();
     });
 
-    const resetButton: HTMLElement = getByText("Reset");
+    const resetButton: HTMLElement = getByText(resetButtonLabel);
     act(() => {
       fireEvent.click(resetButton);
     });
 
-    const removePublicKeyButtons: HTMLElement[] = getAllByText("-");
+    const removePublicKeyButtons: HTMLElement[] = getAllByText(
+      removePublicKeyButtonLabel
+    );
 
-    expect(queryByLabelText("Address")).not.toBeInTheDocument();
+    expect(queryByLabelText(addressInputLabel)).not.toBeInTheDocument();
     expect((publicKeyInput1 as HTMLInputElement).readOnly).toBe(false);
     expect((publicKeyInput2 as HTMLInputElement).readOnly).toBe(false);
     removePublicKeyButtons.forEach((removePublicKeyButton) => {
       expect((removePublicKeyButton as HTMLInputElement).disabled).toBe(false);
     });
     expect((addButton as HTMLInputElement).disabled).toBe(false);
-    expect(getByText("Generate")).toBeInTheDocument();
-    expect(queryByText("Reset")).not.toBeInTheDocument();
+    expect(getByText(generateButtonLabel)).toBeInTheDocument();
+    expect(queryByText(resetButtonLabel)).not.toBeInTheDocument();
   });
 });

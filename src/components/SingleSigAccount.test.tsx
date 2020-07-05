@@ -6,27 +6,43 @@ import * as Bip39 from "bip39";
 import SingleSigAccount from "./SingleSigAccount";
 
 describe("should render SingleSigAccount", (): void => {
+  const segWitRadioLabel: string = "SegWit";
+  const nativeSegWitRadioLabel: string = "Native SegWit";
+  const seedPhraseInputLabel: string = "Seed Phrase";
+  const suggestSeedPhraseButtonLabel: string = "Suggest";
+  const derivationPathInputLabel: string = "Derivation Path";
+  const defaultDerivationPathButtonLabel: string = "Default";
+  const generateButtonLabel: string = "Generate";
+  const addressInputLabel: string = "Address";
+  const publicKeyHexInputLabel: string = "Public Key (Hex)";
+  const privateKeyWIFInputLabel: string = "Private Key (WIF)";
+  const resetButtonLabel: string = "Reset";
+
   it("test address type radios", (): void => {
     const { getByLabelText } = render(<SingleSigAccount />);
 
-    const segwitRadio: HTMLElement = getByLabelText("SegWit");
-    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
-    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
+    const segWitRadio: HTMLElement = getByLabelText(segWitRadioLabel);
+    const nativeSegWitRadio: HTMLElement = getByLabelText(
+      nativeSegWitRadioLabel
+    );
+    const derivationPathInput: HTMLElement = getByLabelText(
+      derivationPathInputLabel
+    );
 
-    expect(segwitRadio).toBeInTheDocument();
-    expect((segwitRadio as HTMLInputElement).checked).toBe(true);
-    expect(nativeSegwitRadio).toBeInTheDocument();
-    expect((nativeSegwitRadio as HTMLInputElement).checked).toBe(false);
+    expect(segWitRadio).toBeInTheDocument();
+    expect((segWitRadio as HTMLInputElement).checked).toBe(true);
+    expect(nativeSegWitRadio).toBeInTheDocument();
+    expect((nativeSegWitRadio as HTMLInputElement).checked).toBe(false);
     expect((derivationPathInput as HTMLInputElement).placeholder).toBe(
       `Enter path, eg. m/49'/0'/0'/0/0`
     );
 
     act(() => {
-      nativeSegwitRadio.click();
+      nativeSegWitRadio.click();
     });
 
-    expect((segwitRadio as HTMLInputElement).checked).toBe(false);
-    expect((nativeSegwitRadio as HTMLInputElement).checked).toBe(true);
+    expect((segWitRadio as HTMLInputElement).checked).toBe(false);
+    expect((nativeSegWitRadio as HTMLInputElement).checked).toBe(true);
     expect((derivationPathInput as HTMLInputElement).placeholder).toBe(
       `Enter path, eg. m/84'/0'/0'/0/0`
     );
@@ -35,14 +51,18 @@ describe("should render SingleSigAccount", (): void => {
   it("test seed phrase input", (): void => {
     const { getByText, getByLabelText } = render(<SingleSigAccount />);
 
-    const suggestSeedPhraseButton: HTMLElement = getByText("Suggest");
+    const suggestSeedPhraseButton: HTMLElement = getByText(
+      suggestSeedPhraseButtonLabel
+    );
     expect(suggestSeedPhraseButton).toBeInTheDocument();
 
     act(() => {
       fireEvent.click(suggestSeedPhraseButton);
     });
 
-    const seedPhraseTextareaInput: HTMLElement = getByLabelText("Seed Phrase");
+    const seedPhraseTextareaInput: HTMLElement = getByLabelText(
+      seedPhraseInputLabel
+    );
     expect(seedPhraseTextareaInput).toBeInTheDocument();
     expect(Bip39.validateMnemonic(seedPhraseTextareaInput.innerHTML)).toBe(
       true
@@ -52,15 +72,21 @@ describe("should render SingleSigAccount", (): void => {
   it("test derivation path input", (): void => {
     const { getByText, getByLabelText } = render(<SingleSigAccount />);
 
-    const defaultDerivationPathButton: HTMLElement = getByText("Default");
+    const defaultDerivationPathButton: HTMLElement = getByText(
+      defaultDerivationPathButtonLabel
+    );
     expect(defaultDerivationPathButton).toBeInTheDocument();
 
     act(() => {
       fireEvent.click(defaultDerivationPathButton);
     });
 
-    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
-    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
+    const derivationPathInput: HTMLElement = getByLabelText(
+      derivationPathInputLabel
+    );
+    const nativeSegwitRadio: HTMLElement = getByLabelText(
+      nativeSegWitRadioLabel
+    );
 
     expect(derivationPathInput).toBeInTheDocument();
     expect((derivationPathInput as HTMLInputElement).value).toBe(
@@ -88,9 +114,13 @@ describe("should render SingleSigAccount", (): void => {
       <SingleSigAccount />
     );
 
-    const suggestSeedPhraseButton: HTMLElement = getByText("Suggest");
-    const defaultDerivationPathButton: HTMLElement = getByText("Default");
-    const generateButton: HTMLElement = getByText("Generate");
+    const suggestSeedPhraseButton: HTMLElement = getByText(
+      suggestSeedPhraseButtonLabel
+    );
+    const defaultDerivationPathButton: HTMLElement = getByText(
+      defaultDerivationPathButtonLabel
+    );
+    const generateButton: HTMLElement = getByText(generateButtonLabel);
 
     expect(suggestSeedPhraseButton).toBeInTheDocument();
     expect(defaultDerivationPathButton).toBeInTheDocument();
@@ -106,13 +136,23 @@ describe("should render SingleSigAccount", (): void => {
       fireEvent.click(generateButton);
     });
 
-    const addressInput: HTMLElement = getByLabelText("Address");
-    const publicKeyHexInput: HTMLElement = getByLabelText("Public Key (Hex)");
-    const privateKeyWIFInput: HTMLElement = getByLabelText("Private Key (WIF)");
-    const segwitRadio: HTMLElement = getByLabelText("SegWit");
-    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
-    const seedPhraseTextareaInput: HTMLElement = getByLabelText("Seed Phrase");
-    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
+    const addressInput: HTMLElement = getByLabelText(addressInputLabel);
+    const publicKeyHexInput: HTMLElement = getByLabelText(
+      publicKeyHexInputLabel
+    );
+    const privateKeyWIFInput: HTMLElement = getByLabelText(
+      privateKeyWIFInputLabel
+    );
+    const segwitRadio: HTMLElement = getByLabelText(segWitRadioLabel);
+    const nativeSegwitRadio: HTMLElement = getByLabelText(
+      nativeSegWitRadioLabel
+    );
+    const seedPhraseTextareaInput: HTMLElement = getByLabelText(
+      seedPhraseInputLabel
+    );
+    const derivationPathInput: HTMLElement = getByLabelText(
+      derivationPathInputLabel
+    );
 
     expect(addressInput).toBeInTheDocument();
     expect((addressInput as HTMLInputElement).readOnly).toBe(true);
@@ -131,8 +171,8 @@ describe("should render SingleSigAccount", (): void => {
     expect((defaultDerivationPathButton as HTMLInputElement).disabled).toBe(
       true
     );
-    expect(queryByText("Generate")).not.toBeInTheDocument();
-    expect(getByText("Reset")).toBeInTheDocument();
+    expect(queryByText(generateButtonLabel)).not.toBeInTheDocument();
+    expect(getByText(resetButtonLabel)).toBeInTheDocument();
   });
 
   it("test reset button", (): void => {
@@ -140,9 +180,13 @@ describe("should render SingleSigAccount", (): void => {
       <SingleSigAccount />
     );
 
-    const suggestSeedPhraseButton: HTMLElement = getByText("Suggest");
-    const defaultDerivationPathButton: HTMLElement = getByText("Default");
-    const generateButton: HTMLElement = getByText("Generate");
+    const suggestSeedPhraseButton: HTMLElement = getByText(
+      suggestSeedPhraseButtonLabel
+    );
+    const defaultDerivationPathButton: HTMLElement = getByText(
+      defaultDerivationPathButtonLabel
+    );
+    const generateButton: HTMLElement = getByText(generateButtonLabel);
     act(() => {
       fireEvent.click(suggestSeedPhraseButton);
     });
@@ -153,19 +197,25 @@ describe("should render SingleSigAccount", (): void => {
       fireEvent.click(generateButton);
     });
 
-    const resetButton: HTMLElement = getByText("Reset");
+    const resetButton: HTMLElement = getByText(resetButtonLabel);
     act(() => {
       fireEvent.click(resetButton);
     });
 
-    const segwitRadio: HTMLElement = getByLabelText("SegWit");
-    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
-    const seedPhraseTextareaInput: HTMLElement = getByLabelText("Seed Phrase");
-    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
+    const segwitRadio: HTMLElement = getByLabelText(segWitRadioLabel);
+    const nativeSegwitRadio: HTMLElement = getByLabelText(
+      nativeSegWitRadioLabel
+    );
+    const seedPhraseTextareaInput: HTMLElement = getByLabelText(
+      seedPhraseInputLabel
+    );
+    const derivationPathInput: HTMLElement = getByLabelText(
+      derivationPathInputLabel
+    );
 
-    expect(queryByLabelText("Address")).not.toBeInTheDocument();
-    expect(queryByLabelText("Public Key (Hex)")).not.toBeInTheDocument();
-    expect(queryByLabelText("Private Key (WIF)")).not.toBeInTheDocument();
+    expect(queryByLabelText(addressInputLabel)).not.toBeInTheDocument();
+    expect(queryByLabelText(publicKeyHexInputLabel)).not.toBeInTheDocument();
+    expect(queryByLabelText(privateKeyWIFInputLabel)).not.toBeInTheDocument();
     expect((segwitRadio as HTMLInputElement).disabled).toBe(false);
     expect((nativeSegwitRadio as HTMLInputElement).disabled).toBe(false);
     expect((seedPhraseTextareaInput as HTMLInputElement).readOnly).toBe(false);
@@ -174,7 +224,7 @@ describe("should render SingleSigAccount", (): void => {
     expect((defaultDerivationPathButton as HTMLInputElement).disabled).toBe(
       false
     );
-    expect(getByText("Generate")).toBeInTheDocument();
-    expect(queryByText("Reset")).not.toBeInTheDocument();
+    expect(getByText(generateButtonLabel)).toBeInTheDocument();
+    expect(queryByText(resetButtonLabel)).not.toBeInTheDocument();
   });
 });
