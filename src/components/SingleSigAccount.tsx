@@ -72,7 +72,7 @@ const SingleSigAccount = (): JSX.Element => {
     changeAddressType(AddressType.SegWit);
   }, []);
 
-  const generated: boolean = !!address;
+  const generatedAddress: boolean = !!address;
 
   return (
     <Card className="accountCard">
@@ -90,7 +90,7 @@ const SingleSigAccount = (): JSX.Element => {
                 name="formSegWitTypes"
                 id="formSegWitTypes1"
                 checked={addressType === AddressType.SegWit}
-                disabled={generated}
+                disabled={generatedAddress}
                 onChange={(): void => {
                   changeAddressType(AddressType.SegWit);
                 }}
@@ -102,7 +102,7 @@ const SingleSigAccount = (): JSX.Element => {
                 name="formSegWitTypes"
                 id="formSegWitTypes2"
                 checked={addressType === AddressType.NativeSegWit}
-                disabled={generated}
+                disabled={generatedAddress}
                 onChange={(): void => {
                   changeAddressType(AddressType.NativeSegWit);
                 }}
@@ -117,7 +117,7 @@ const SingleSigAccount = (): JSX.Element => {
                   rows={3}
                   placeholder="Enter a seed phrase"
                   value={mnemonic}
-                  readOnly={generated}
+                  readOnly={generatedAddress}
                   onChange={(
                     event: React.ChangeEvent<HTMLInputElement>
                   ): void => {
@@ -128,7 +128,7 @@ const SingleSigAccount = (): JSX.Element => {
                 <InputGroup.Append>
                   <Button
                     variant="outline-primary"
-                    disabled={generated}
+                    disabled={generatedAddress}
                     onClick={(): void => {
                       setMnemonic(generateMnemonic());
                     }}
@@ -150,7 +150,7 @@ const SingleSigAccount = (): JSX.Element => {
                   type="text"
                   placeholder={`Enter path, eg. ${pathPlaceholder}`}
                   value={path}
-                  readOnly={generated}
+                  readOnly={generatedAddress}
                   onChange={(
                     event: React.ChangeEvent<HTMLInputElement>
                   ): void => {
@@ -161,7 +161,7 @@ const SingleSigAccount = (): JSX.Element => {
                 <InputGroup.Append>
                   <Button
                     variant="outline-primary"
-                    disabled={generated}
+                    disabled={generatedAddress}
                     onClick={(): void => {
                       setPath(pathPlaceholder);
                     }}
@@ -175,12 +175,12 @@ const SingleSigAccount = (): JSX.Element => {
               </Form.Text>
             </Form.Group>
 
-            {!generated && (
+            {!generatedAddress && (
               <Form.Group>
                 <Button
                   variant="outline-primary"
                   type="button"
-                  disabled={generated}
+                  disabled={generatedAddress}
                   onClick={(): void => {
                     if (validateInputs()) {
                       const account = generateAccount(
@@ -208,7 +208,7 @@ const SingleSigAccount = (): JSX.Element => {
                 </Button>
               </Form.Group>
             )}
-            {generated && (
+            {generatedAddress && (
               <div>
                 <Form.Group controlId="formAddress">
                   <Form.Label>Address</Form.Label>

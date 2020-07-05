@@ -14,7 +14,7 @@ const MultiSigAccount = (): JSX.Element => {
   const [numberOfRequiredKeys, setNumberOfRequiredKeys] = useState<number>(1);
   const [address, setAddress] = useState<string>("");
 
-  const generated: boolean = !!address;
+  const generatedAddress: boolean = !!address;
 
   return (
     <Card className="accountCard">
@@ -34,7 +34,7 @@ const MultiSigAccount = (): JSX.Element => {
                         <Form.Control
                           type="text"
                           value={publicKey}
-                          readOnly={generated}
+                          readOnly={generatedAddress}
                           onChange={(
                             event: React.ChangeEvent<HTMLInputElement>
                           ): void => {
@@ -51,7 +51,7 @@ const MultiSigAccount = (): JSX.Element => {
                           <InputGroup.Append>
                             <Button
                               variant="outline-primary"
-                              disabled={generated}
+                              disabled={generatedAddress}
                               onClick={(): void => {
                                 setNumberOfRequiredKeys(
                                   numberOfRequiredKeys >= publicKeys.length
@@ -77,7 +77,7 @@ const MultiSigAccount = (): JSX.Element => {
                 className="addButton"
                 variant="outline-primary"
                 type="button"
-                disabled={generated}
+                disabled={generatedAddress}
                 onClick={(): void => {
                   setPublicKeys((keys): string[] => [...keys, ""]);
                 }}
@@ -93,7 +93,7 @@ const MultiSigAccount = (): JSX.Element => {
               <Form.Control
                 as="select"
                 value={numberOfRequiredKeys}
-                disabled={generated}
+                disabled={generatedAddress}
                 onChange={(
                   event: React.ChangeEvent<HTMLInputElement>
                 ): void => {
@@ -108,12 +108,12 @@ const MultiSigAccount = (): JSX.Element => {
               </Form.Control>
             </Form.Group>
 
-            {!generated && (
+            {!generatedAddress && (
               <Form.Group>
                 <Button
                   variant="outline-primary"
                   type="button"
-                  disabled={generated}
+                  disabled={generatedAddress}
                   onClick={(): void => {
                     const account: BitcoinjsLib.payments.Payment | null = generateMultiSigAccount(
                       publicKeys,
@@ -135,7 +135,7 @@ const MultiSigAccount = (): JSX.Element => {
               </Form.Group>
             )}
 
-            {generated && (
+            {generatedAddress && (
               <div>
                 <Form.Group controlId="formAddress">
                   <Form.Label>Address</Form.Label>
