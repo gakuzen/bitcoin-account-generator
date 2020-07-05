@@ -19,7 +19,7 @@ const MultiSigAccount = (): JSX.Element => {
   return (
     <Card>
       <Card.Header>
-        N-of-M Multisignature (multi-sig) Pay-To-Script-Hash (P2SH) account
+        N-of-M Multisignature (multisig) Pay-To-Script-Hash (P2SH) account
       </Card.Header>
       <Card.Body>
         <div>
