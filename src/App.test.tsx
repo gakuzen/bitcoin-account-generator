@@ -2,8 +2,8 @@ import React from "react";
 import { render } from "@testing-library/react";
 import App from "./App";
 
-test("renders learn react link", () => {
+test("renders App", () => {
   const { getByText } = render(<App />);
-  const navBarElement = getByText(/Bitcoin account generator/i);
+  const navBarElement = getByText("Bitcoin account generator");
   expect(navBarElement).toBeInTheDocument();
 });

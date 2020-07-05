@@ -75,7 +75,7 @@ const SingleSigAccount = (): JSX.Element => {
   const generatedAddress: boolean = !!address;
 
   return (
-    <Card className="accountCard">
+    <Card>
       <Card.Header>
         Hierarchical Deterministic (HD) Segregated Witness (SegWit) account
       </Card.Header>

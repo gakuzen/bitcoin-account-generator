@@ -17,7 +17,7 @@ const MultiSigAccount = (): JSX.Element => {
   const generatedAddress: boolean = !!address;
 
   return (
-    <Card className="accountCard">
+    <Card>
       <Card.Header>
         N-of-M Multisignature (multi-sig) Pay-To-Script-Hash (P2SH) account
       </Card.Header>
@@ -75,7 +75,7 @@ const MultiSigAccount = (): JSX.Element => {
                 )
               )}
               <Button
-                className="addButton"
+                className="add-button"
                 variant="outline-primary"
                 type="button"
                 disabled={generatedAddress}
