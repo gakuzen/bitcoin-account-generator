@@ -66,7 +66,7 @@ export const generateAccount = (
 
 export const generateMultiSigAccount = (
   publicKeys: string[],
-  n: number
+  numberOfRequired: number
 ): BitcoinjsLib.payments.Payment | null => {
   try {
     const pubkeys: Buffer[] = publicKeys.map(
@@ -74,7 +74,7 @@ export const generateMultiSigAccount = (
     );
 
     return BitcoinjsLib.payments.p2sh({
-      redeem: BitcoinjsLib.payments.p2ms({ m: n, pubkeys }),
+      redeem: BitcoinjsLib.payments.p2ms({ m: numberOfRequired, pubkeys }),
     });
   } catch (err) {
     return null;
