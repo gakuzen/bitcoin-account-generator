@@ -9,15 +9,15 @@ describe("should render SingleSigAccount", (): void => {
   it("test address type radios", (): void => {
     const { getByLabelText } = render(<SingleSigAccount />);
 
-    let segwitRadio: HTMLElement = getByLabelText("SegWit");
+    const segwitRadio: HTMLElement = getByLabelText("SegWit");
     expect(segwitRadio).toBeInTheDocument();
     expect((segwitRadio as HTMLInputElement).checked).toBe(true);
 
-    let nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
+    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
     expect(nativeSegwitRadio).toBeInTheDocument();
     expect((nativeSegwitRadio as HTMLInputElement).checked).toBe(false);
 
-    let derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
+    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
     expect((derivationPathInput as HTMLInputElement).placeholder).toBe(
       `Enter path, eg. m/49'/0'/0'/0/0`
     );
@@ -26,13 +26,8 @@ describe("should render SingleSigAccount", (): void => {
       nativeSegwitRadio.click();
     });
 
-    segwitRadio = getByLabelText("SegWit");
     expect((segwitRadio as HTMLInputElement).checked).toBe(false);
-
-    nativeSegwitRadio = getByLabelText("Native SegWit");
     expect((nativeSegwitRadio as HTMLInputElement).checked).toBe(true);
-
-    derivationPathInput = getByLabelText("Derivation Path");
     expect((derivationPathInput as HTMLInputElement).placeholder).toBe(
       `Enter path, eg. m/84'/0'/0'/0/0`
     );
@@ -65,27 +60,25 @@ describe("should render SingleSigAccount", (): void => {
       fireEvent.click(defaultDerivationPathButton);
     });
 
-    let derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
+    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
     expect(derivationPathInput).toBeInTheDocument();
     expect((derivationPathInput as HTMLInputElement).value).toBe(
       `m/49'/0'/0'/0/0`
     );
 
-    let nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
+    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
     expect(nativeSegwitRadio).not.toHaveAttribute("checked");
 
     act(() => {
       nativeSegwitRadio.click();
     });
 
-    derivationPathInput = getByLabelText("Derivation Path");
     expect((derivationPathInput as HTMLInputElement).value).toBe("");
 
     act(() => {
       fireEvent.click(defaultDerivationPathButton);
     });
 
-    derivationPathInput = getByLabelText("Derivation Path");
     expect((derivationPathInput as HTMLInputElement).value).toBe(
       "m/84'/0'/0'/0/0"
     );
@@ -96,9 +89,9 @@ describe("should render SingleSigAccount", (): void => {
       <SingleSigAccount />
     );
 
-    let suggestSeedPhraseButton: HTMLElement = getByText("Suggest");
-    let defaultDerivationPathButton: HTMLElement = getByText("Default");
-    let generateButton: HTMLElement = getByText("Generate");
+    const suggestSeedPhraseButton: HTMLElement = getByText("Suggest");
+    const defaultDerivationPathButton: HTMLElement = getByText("Default");
+    const generateButton: HTMLElement = getByText("Generate");
 
     expect(suggestSeedPhraseButton).toBeInTheDocument();
     expect(defaultDerivationPathButton).toBeInTheDocument();
@@ -117,12 +110,10 @@ describe("should render SingleSigAccount", (): void => {
     const addressInput: HTMLElement = getByLabelText("Address");
     const publicKeyHexInput: HTMLElement = getByLabelText("Public Key (Hex)");
     const privateKeyWIFInput: HTMLElement = getByLabelText("Private Key (WIF)");
-    let segwitRadio: HTMLElement = getByLabelText("SegWit");
-    let nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
-    let seedPhraseTextareaInput: HTMLElement = getByLabelText("Seed Phrase");
-    suggestSeedPhraseButton = getByText("Suggest");
-    let derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
-    defaultDerivationPathButton = getByText("Default");
+    const segwitRadio: HTMLElement = getByLabelText("SegWit");
+    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
+    const seedPhraseTextareaInput: HTMLElement = getByLabelText("Seed Phrase");
+    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
 
     expect(addressInput).toBeInTheDocument();
     expect((addressInput as HTMLInputElement).readOnly).toBe(true);
@@ -150,9 +141,9 @@ describe("should render SingleSigAccount", (): void => {
       <SingleSigAccount />
     );
 
-    let suggestSeedPhraseButton: HTMLElement = getByText("Suggest");
-    let defaultDerivationPathButton: HTMLElement = getByText("Default");
-    let generateButton: HTMLElement = getByText("Generate");
+    const suggestSeedPhraseButton: HTMLElement = getByText("Suggest");
+    const defaultDerivationPathButton: HTMLElement = getByText("Default");
+    const generateButton: HTMLElement = getByText("Generate");
     act(() => {
       fireEvent.click(suggestSeedPhraseButton);
     });
@@ -163,17 +154,15 @@ describe("should render SingleSigAccount", (): void => {
       fireEvent.click(generateButton);
     });
 
-    let resetButton: HTMLElement = getByText("Reset");
+    const resetButton: HTMLElement = getByText("Reset");
     act(() => {
       fireEvent.click(resetButton);
     });
 
-    let segwitRadio: HTMLElement = getByLabelText("SegWit");
-    let nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
-    let seedPhraseTextareaInput: HTMLElement = getByLabelText("Seed Phrase");
-    suggestSeedPhraseButton = getByText("Suggest");
-    let derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
-    defaultDerivationPathButton = getByText("Default");
+    const segwitRadio: HTMLElement = getByLabelText("SegWit");
+    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
+    const seedPhraseTextareaInput: HTMLElement = getByLabelText("Seed Phrase");
+    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
 
     expect(queryByLabelText("Address")).not.toBeInTheDocument();
     expect(queryByLabelText("Public Key (Hex)")).not.toBeInTheDocument();
