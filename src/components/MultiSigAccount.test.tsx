@@ -20,12 +20,11 @@ describe("should render MultiSigAccount", (): void => {
     } = render(<MultiSigAccount />);
 
     const publicKeyInput1: HTMLElement = getByPlaceholderText("#1");
-    expect(publicKeyInput1).toBeInTheDocument();
-    act(() => {
-      fireEvent.change(publicKeyInput1, { target: { value: publicKeys[0] } });
-    });
-
     const addButton: HTMLElement = getByText("+");
+
+    expect(publicKeyInput1).toBeInTheDocument();
+    expect(addButton).toBeInTheDocument();
+
     act(() => {
       addButton.click();
       addButton.click();
@@ -33,9 +32,13 @@ describe("should render MultiSigAccount", (): void => {
 
     const publicKeyInput2: HTMLElement = getByPlaceholderText("#2");
     const publicKeyInput3: HTMLElement = getByPlaceholderText("#3");
+
     expect(publicKeyInput2).toBeInTheDocument();
     expect(publicKeyInput3).toBeInTheDocument();
 
+    act(() => {
+      fireEvent.change(publicKeyInput1, { target: { value: publicKeys[0] } });
+    });
     act(() => {
       fireEvent.change(publicKeyInput2, { target: { value: publicKeys[1] } });
     });
@@ -44,6 +47,8 @@ describe("should render MultiSigAccount", (): void => {
     });
 
     let removePublicKeyButtons: HTMLElement[] = getAllByText("-");
+    expect(removePublicKeyButtons.length).toBe(2);
+
     act(() => {
       removePublicKeyButtons[0].click();
     });
@@ -66,10 +71,11 @@ describe("should render MultiSigAccount", (): void => {
     let numberOfRequiredKeysSelect: HTMLElement = getByLabelText(
       /Number of required keys/i
     );
+    const addButton: HTMLElement = getByText("+");
+
     expect(numberOfRequiredKeysSelect).toBeInTheDocument();
     expect((numberOfRequiredKeysSelect as HTMLInputElement).value).toBe("1");
 
-    const addButton: HTMLElement = getByText("+");
     act(() => {
       addButton.click();
       addButton.click();
@@ -176,7 +182,6 @@ describe("should render MultiSigAccount", (): void => {
     });
 
     const generateButton: HTMLElement = getByText("Generate");
-    expect(generateButton).toBeInTheDocument();
     act(() => {
       generateButton.click();
     });

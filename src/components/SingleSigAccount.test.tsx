@@ -10,14 +10,13 @@ describe("should render SingleSigAccount", (): void => {
     const { getByLabelText } = render(<SingleSigAccount />);
 
     const segwitRadio: HTMLElement = getByLabelText("SegWit");
+    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
+    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
+
     expect(segwitRadio).toBeInTheDocument();
     expect((segwitRadio as HTMLInputElement).checked).toBe(true);
-
-    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
     expect(nativeSegwitRadio).toBeInTheDocument();
     expect((nativeSegwitRadio as HTMLInputElement).checked).toBe(false);
-
-    const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
     expect((derivationPathInput as HTMLInputElement).placeholder).toBe(
       `Enter path, eg. m/49'/0'/0'/0/0`
     );
@@ -61,12 +60,12 @@ describe("should render SingleSigAccount", (): void => {
     });
 
     const derivationPathInput: HTMLElement = getByLabelText("Derivation Path");
+    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
+
     expect(derivationPathInput).toBeInTheDocument();
     expect((derivationPathInput as HTMLInputElement).value).toBe(
       `m/49'/0'/0'/0/0`
     );
-
-    const nativeSegwitRadio: HTMLElement = getByLabelText("Native SegWit");
     expect(nativeSegwitRadio).not.toHaveAttribute("checked");
 
     act(() => {
