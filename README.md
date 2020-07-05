@@ -5,6 +5,11 @@ Supports the following:
 - Hierarchical Deterministic (HD) Segregated Witness (SegWit) account
 - N-of-M Multisignature (multisig) Pay-To-Script-Hash (P2SH) account
 
+| Bank / Bitcoin Account | Identifier     | Access Key  |
+| ---------------------- | -------------- | ----------- |
+| Bank                   | account number | password    |
+| Bitcoin                | address        | private key |
+
 ## TODO
 
 - Enhance form validation by using Yup and Formik
