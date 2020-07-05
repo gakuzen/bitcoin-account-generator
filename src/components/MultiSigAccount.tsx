@@ -34,6 +34,7 @@ const MultiSigAccount = (): JSX.Element => {
                         <Form.Control
                           type="text"
                           value={publicKey}
+                          placeholder={`#${index + 1}`}
                           readOnly={generatedAddress}
                           onChange={(
                             event: React.ChangeEvent<HTMLInputElement>
