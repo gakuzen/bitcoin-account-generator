@@ -12,9 +12,11 @@ Supports the following:
 
 ## TODO
 
-- Enhance form validation by using Yup and Formik
+- Test Bitcoin related code by checking against multiple libraries
+- Enhance form validation using Yup and Formik
 - Detect Internet connection changes in real-time
-- Test Bitcoin related utilities by multiple libraries
+- Improve reusability of components by dividing them into Stateless Component, Stateful Component and Higher-Order Component
+- Store and manage the whole state of the app using Redux
 
 ## How to run locally
 
